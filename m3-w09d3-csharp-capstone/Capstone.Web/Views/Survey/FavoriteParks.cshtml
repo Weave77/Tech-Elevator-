@@ -1,5 +1,13 @@
-﻿@{
+﻿@using Capstone.Web.Models;
+@model List<SurveyModel>
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@foreach (SurveyModel i in Model)
+{
+    <img src="~/Content/parks/@(i.ParkCode + ".jpg")"/>
+    <p>@i.ParkName with @i.Votes votes!</p>
+}
 

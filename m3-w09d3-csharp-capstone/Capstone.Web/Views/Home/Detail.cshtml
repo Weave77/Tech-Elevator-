@@ -1,5 +1,49 @@
-﻿@{
+﻿@using Capstone.Web.Models;
+@model ParkModel
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div>
+    <table>
+        <tr>
+            <td>
+                <img src="~/Content/parks/@(Model.ParkCode + ".jpg")" />
+            </td>
+        </tr>
+        <tr>
+            <td>@Model.ParkName</td>
+        </tr>
+        <tr><td>@Model.ParkDescription</td></tr>
+        <tr>
+            <td>@Model.State</td>
+            <td>@Model.Acreage</td>
+            <td>@Model.YearFounded</td>
+            <td>@Model.ElevationInFeet feet hight</td>
+            <td>@Model.AnnualVisitorCount</td>
+            <td>@Model.Climate</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>@Model.InspirationalQuote</td>
+            <td>@Model.InspirationalQuoteSource</td>
+            <td>@Model.MilesOfTrail</td>
+            <td>@Model.NumberOfAnimalSpecies</td>
+            <td>@Model.NumberOfCampsites</td>
+            <td>@Model.EntryFee</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>@Model.TemperatureHigh</td>
+            <td>@Model.TemperatureLow</td>
+            <td>@Model.FiveDayForecastValue</td>
+            <td>@Model.Forecast</td>
+
+        </tr>
+    </table>
+</div>
 
 

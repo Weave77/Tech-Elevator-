@@ -10,12 +10,12 @@ namespace Capstone.Web.DAL
 {
     public class ParkSqlDAL
     {
-        private string connectionString;
+        private string connectionString = @"Data Source=localhost\sqlexpress;Initial Catalog=ParkWeather;Integrated Security=True";
 
-        private const string SQL_AllParks = @"SELECT parkName, parkDescription, state, acreage, elevationInFeet, milesOfTrail, numberofCampsites, 
+        private const string SQL_AllParks = @"SELECT parkCode, parkName, parkDescription, state, acreage, elevationInFeet, milesOfTrail, numberofCampsites, 
                                                      climate, yearFounded, numberOfAnimalSpecies FROM park";
 
-        private const string SQL_SpecificPark = @"SELECT * FROM park JOIN weather on weather.parkcode = park.parkcode WHERE park.parkCode = @parkCode";
+        private const string SQL_SpecificPark = @"SELECT * FROM park JOIN weather ON weather.parkcode = park.parkcode WHERE park.parkCode = @parkCode";
 
         public ParkSqlDAL(string connectionString)
         {
@@ -27,7 +27,7 @@ namespace Capstone.Web.DAL
             List<ParkModel> thisList = new List<ParkModel>();
             try
             {
-                using(SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
@@ -48,7 +48,8 @@ namespace Capstone.Web.DAL
                         thisPark.NumberOfCampsites = Convert.ToInt32(reader["numberOfCampsites"]);
                         thisPark.Climate = Convert.ToString(reader["climate"]);
                         thisPark.YearFounded = Convert.ToInt32(reader["yearFounded"]);
-                        thisPark.NumberOfAnimalSpecies = Convert.ToInt32(reader["numberOfAnimalsSpecies"]);
+                        thisPark.NumberOfAnimalSpecies = Convert.ToInt32(reader["numberOfAnimalSpecies"]);
+                        thisPark.ParkCode = Convert.ToString(reader["parkCode"]);
 
                         thisList.Add(thisPark);
                     }
@@ -70,11 +71,11 @@ namespace Capstone.Web.DAL
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(SQL_SpecificPark, conn);
-
                     cmd.Parameters.AddWithValue("@parkCode", parkCode);
+
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read())
+                    while (reader.Read())  
                     {
                         p.Acreage = Convert.ToInt32(reader["acreage"]);
                         p.AnnualVisitorCount = Convert.ToInt32(reader["annualVisitorCount"]);
@@ -92,8 +93,8 @@ namespace Capstone.Web.DAL
                         p.ParkDescription = Convert.ToString(reader["parkDescription"]);
                         p.ParkName = Convert.ToString(reader["parkName"]);
                         p.State = Convert.ToString(reader["state"]);
-                        p.TemperatureHigh = Convert.ToInt32(reader["temperatureHigh"]);
-                        p.TemperatureLow = Convert.ToInt32(reader["temperatureLow"]);
+                        p.TemperatureHigh = Convert.ToInt32(reader["high"]);
+                        p.TemperatureLow = Convert.ToInt32(reader["low"]);
                         p.YearFounded = Convert.ToInt32(reader["yearFounded"]);
                     }
                 }

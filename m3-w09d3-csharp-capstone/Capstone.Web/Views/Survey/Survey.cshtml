@@ -1,5 +1,42 @@
-﻿@{
+﻿@using Capstone.Web.Models
+@model SurveyModel
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<h1>New Geek Post</h1>
+
+@*<div>
+        @Html.Label("Username", "Enter Username: ")
+        @Html.TextBoxFor(m => m.Username)
+    </div>
+
+    <div>
+        @Html.Label("Message", "Message: ")
+        @Html.TextAreaFor(m => m.Message)
+    </div>*@
+@using (Html.BeginForm("Survey", "Survey", FormMethod.Post))
+{
+    <div class="formInputGroupGroup">
+        @Html.Label("ParkCode", "Select your favorite park! ")
+        @Html.DropDownListFor(m => m.ParkCode, SurveyModel.ParkCodes)
+    </div>
+    <div>
+        @Html.Label("EmailAddress", "Email Address: ")
+        @Html.TextBoxFor(m => m.EmailAddress)
+    </div>
+    <div>
+        @Html.Label("States", "Select your State ")
+        @Html.DropDownListFor(m => m.State, SurveyModel.States)
+    </div>
+    <div>
+        @Html.Label("ActivityLevel", "Select your activity level ")
+        @Html.DropDownListFor(m => m.ActivityLevel, SurveyModel.ActivityLevels)
+    </div>
+    <div>
+        <button>Submit!</button>
+    </div>
+}
 
