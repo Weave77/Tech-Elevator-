@@ -15,7 +15,7 @@ namespace Capstone.Web.DAL
         private const string SQL_AllParks = @"SELECT parkCode, parkName, parkDescription, state, acreage, elevationInFeet, milesOfTrail, numberofCampsites, 
                                                      climate, yearFounded, numberOfAnimalSpecies FROM park";
 
-        private const string SQL_SpecificPark = @"SELECT * FROM park JOIN weather ON weather.parkcode = park.parkcode WHERE park.parkCode = @parkCode";
+        private const string SQL_SpecificPark = @"SELECT * FROM park WHERE park.parkCode = @parkCode";
 
         public ParkSqlDAL(string connectionString)
         {
@@ -64,7 +64,9 @@ namespace Capstone.Web.DAL
 
         public ParkModel SelectedParkDecriptiveDetails(string parkCode)
         {
+            
             ParkModel p = new ParkModel();
+            
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -77,13 +79,13 @@ namespace Capstone.Web.DAL
 
                     while (reader.Read())  
                     {
+                        
                         p.Acreage = Convert.ToInt32(reader["acreage"]);
                         p.AnnualVisitorCount = Convert.ToInt32(reader["annualVisitorCount"]);
                         p.Climate = Convert.ToString(reader["climate"]);
                         p.ElevationInFeet = Convert.ToInt32(reader["elevationInFeet"]);
                         p.EntryFee = Convert.ToInt32(reader["entryFee"]);
-                        p.FiveDayForecastValue = Convert.ToInt32(reader["fiveDayForecastValue"]);
-                        p.Forecast = Convert.ToString(reader["Forecast"]);
+                       
                         p.InspirationalQuote = Convert.ToString(reader["inspirationalQuote"]);
                         p.InspirationalQuoteSource = Convert.ToString(reader["inspirationalQuoteSource"]);
                         p.MilesOfTrail = Convert.ToDecimal(reader["milesOfTrail"]);
@@ -93,9 +95,8 @@ namespace Capstone.Web.DAL
                         p.ParkDescription = Convert.ToString(reader["parkDescription"]);
                         p.ParkName = Convert.ToString(reader["parkName"]);
                         p.State = Convert.ToString(reader["state"]);
-                        p.TemperatureHigh = Convert.ToInt32(reader["high"]);
-                        p.TemperatureLow = Convert.ToInt32(reader["low"]);
                         p.YearFounded = Convert.ToInt32(reader["yearFounded"]);
+
                     }
                 }
             }

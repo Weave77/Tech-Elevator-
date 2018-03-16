@@ -23,10 +23,40 @@ namespace Capstone.Web.Controllers
 
         public ActionResult Detail(string id)
         {
-            ParkSqlDAL sql = new ParkSqlDAL(connectionString);
-            ParkModel thisPark = new ParkModel();
-            thisPark = sql.SelectedParkDecriptiveDetails(id);
-            return View("Detail", thisPark);
+
+
+            if (id == null)
+            {
+                id = "CVNP";
+            }
+            ParkSqlDAL ParkSql = new ParkSqlDAL(connectionString);
+
+
+
+            var tempValue = Session["tempValue"];
+            if (tempValue == null)
+            {
+                tempValue = 0;
+            }
+            WeatherSqlDAL sqlweather = new WeatherSqlDAL(connectionString);
+            ParkModel park = ParkSql.SelectedParkDecriptiveDetails(id);
+            park.WeatherList = sqlweather.SpecificParkWeather(id);
+
+            Session["tempValue"] = tempValue;           
+            park.TempValueProperty = (int)tempValue;
+
+            ViewBag.WeatherData = park.WeatherList;
+
+            return View("Detail", park);
+        }
+
+        [HttpPost]
+        public ActionResult Detail(ParkModel newPark)
+        {
+            int tempValue = newPark.TempValueProperty;
+            Session["tempValue"] = tempValue;
+
+            return View("Detail", newPark);
         }
     }
 }

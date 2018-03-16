@@ -1,49 +1,144 @@
 ﻿@using Capstone.Web.Models;
 @model ParkModel
-
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Weather> parkWeatherData = ViewBag.WeatherData;
 }
 
-<div>
-    <table>
-        <tr>
-            <td>
-                <img src="~/Content/parks/@(Model.ParkCode + ".jpg")" />
-            </td>
-        </tr>
-        <tr>
-            <td>@Model.ParkName</td>
-        </tr>
-        <tr><td>@Model.ParkDescription</td></tr>
-        <tr>
-            <td>@Model.State</td>
-            <td>@Model.Acreage</td>
-            <td>@Model.YearFounded</td>
-            <td>@Model.ElevationInFeet feet hight</td>
-            <td>@Model.AnnualVisitorCount</td>
-            <td>@Model.Climate</td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td>@Model.InspirationalQuote</td>
-            <td>@Model.InspirationalQuoteSource</td>
-            <td>@Model.MilesOfTrail</td>
-            <td>@Model.NumberOfAnimalSpecies</td>
-            <td>@Model.NumberOfCampsites</td>
-            <td>@Model.EntryFee</td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td>@Model.TemperatureHigh</td>
-            <td>@Model.TemperatureLow</td>
-            <td>@Model.FiveDayForecastValue</td>
-            <td>@Model.Forecast</td>
+@using (Html.BeginForm("Detail", "Home", FormMethod.Post))
+{
+    <div>
 
-        </tr>
-    </table>
-</div>
+
+        <table>
+            <tr>
+                <td>
+                    <img src="~/Content/parks/@(Model.ParkCode + ".jpg")" />
+                </td>
+            </tr>
+            <tr>
+                <td>@Model.ParkName</td>
+            </tr>
+            <tr><td>@Model.ParkDescription</td></tr>
+            <tr><td><Strong>State: </Strong>@Model.State</td></tr>
+            <tr> <td><Strong>Total Acreage: </Strong>@Model.Acreage</td></tr>
+            <tr><td><Strong>Year Founded: </Strong>@Model.YearFounded</td></tr>
+            <tr><td><Strong>Elevation Height: </Strong>@Model.ElevationInFeet ft.</td></tr>
+            <tr> <td><Strong>Annual Visitor Count: </Strong>@Model.AnnualVisitorCount</td></tr>
+            <tr><td><Strong>Type of Ecosystem: </Strong>@Model.Climate</td></tr>
+
+        </table>
+        <table>
+            <tr><td>"@Model.InspirationalQuote"</td></tr>
+            <tr><td>@Model.InspirationalQuoteSource</td></tr>
+            <tr>
+                <td>There are @Model.MilesOfTrail miles of trail!</td>
+                <td>There are a total of @Model.NumberOfAnimalSpecies different types of species in @Model.ParkName.</td>
+                <td>This park has @Model.NumberOfCampsites campsites.</td>
+                <td>The entry fee for the park is @Model.EntryFee. </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+
+                @foreach (Weather i in parkWeatherData)
+                {
+                    if (i.FiveDayForecastValue == 1)
+                    {
+                        <td>Today's forecast: @i.Forecast</td>
+                        if (i.Forecast == "snow")
+                        {
+                            <strong>Pack some snow shoes!</strong>
+                        }
+                        else if (i.Forecast == "rain")
+                        {
+                            <strong>Pack some rain gear and remember your waterproof boots!</strong>
+                        }
+                        else if (i.Forecast == "thunderstorm")
+                        {
+                            <strong>Find shelter and avoid hiking on exposed ridges!</strong>
+                        }
+                        else if (i.Forecast == "sun")
+                        {
+                            <strong>Remember to pack some sunblock!</strong>
+                        }
+                        if (Model.TempValueProperty == 0)
+                        {
+                            <td>The high: @i.TemperatureHigh°F.</td>
+                            <td>The low: @i.TemperatureLow°F.</td>}
+                        else if (Model.TempValueProperty == 1)
+                        {
+                            <td>The high: @((5.0 / 9.0) * (i.TemperatureHigh - 32))  degrees.</td>
+                            <td>The low: @((5.0 / 9.0) * (i.TemperatureLow - 32)) degrees.</td>
+                        }
+                        if ((i.TemperatureLow < 20) && ((i.TemperatureHigh - i.TemperatureLow) > 20))
+                        {
+                            <strong>Beware of frostbite!</strong>
+                            <strong>Make sure to wear breathable layers!</strong>
+                        }
+                        else if (((i.TemperatureHigh - i.TemperatureLow) > 20) && (i.TemperatureHigh > 75))
+                        {
+                            <strong>Make sure to wear breathable layers!</strong>
+                            <strong> Make sure to bring extra water!</strong>
+                        }
+                        else if ((i.TemperatureHigh - i.TemperatureLow) > 20)
+                        {
+                            <strong>Beware of frostbite!</strong>
+                        }
+                        else if (i.TemperatureHigh > 75)
+                        {
+                            <strong> Make sure to bring extra water!</strong>
+                        }
+                        else if (i.TemperatureLow < 20)
+                        {
+                            <strong>Beware of frostbite!</strong>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.TempValueProperty == 0)
+                        {
+                            <td>The high: @i.TemperatureHigh°F.</td>
+                            <td>The low: @i.TemperatureLow°F.</td>}
+                        else if (Model.TempValueProperty == 1)
+                        {
+                            <td>The high: @((5.0 / 9.0) * (i.TemperatureHigh - 32))  degrees.</td>
+                            <td>The low: @((5.0 / 9.0) * (i.TemperatureLow - 32)) degrees.</td>
+                        }
+                        <td>Forecast: <img src="~/Content/weather/@(i.Forecast + ".png")" /></td>
+                    }
+                }
+
+            </tr>
+        </table>
+    </div>
+
+
+
+    @Html.Label("Fahrenheit")
+    @Html.RadioButtonFor(m => m.TempValueProperty, 0)
+    @Html.Label("Celsius")
+    @Html.RadioButtonFor(m => m.TempValueProperty, 1)
+    @Html.HiddenFor(m => m.Acreage)
+    @Html.HiddenFor(m => m.AnnualVisitorCount)
+    @Html.HiddenFor(m => m.Climate)
+    @Html.HiddenFor(m => m.ElevationInFeet)
+    @Html.HiddenFor(m => m.EntryFee)
+    @Html.HiddenFor(m => m.InspirationalQuoteSource)
+    @Html.HiddenFor(m => m.InspirationalQuote)
+    @Html.HiddenFor(m => m.MilesOfTrail)
+    @Html.HiddenFor(m => m.NumberOfAnimalSpecies)
+    @Html.HiddenFor(m => m.NumberOfCampsites)
+    @Html.HiddenFor(m => m.ParkCode)
+    @Html.HiddenFor(m => m.ParkDescription)
+    @Html.HiddenFor(m => m.ParkName)
+    @Html.HiddenFor(m => m.State)
+    @Html.HiddenFor(m => m.YearFounded)
+    <button>Submit</button>
+
+
+}
+
 
 

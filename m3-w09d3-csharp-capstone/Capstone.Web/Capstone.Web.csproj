@@ -150,7 +150,7 @@
     <Content Include="Content\parks\ynp2.jpg" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="Content\weather\cloudy.png" />
-    <Content Include="Content\weather\partlyCloudy.png" />
+    <Content Include="Content\weather\partly cloudy.png" />
     <Content Include="Content\weather\rain.png" />
     <Content Include="Content\weather\snow.png" />
     <Content Include="Content\weather\sunny.png" />
@@ -200,11 +200,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\ParkSqlDAL.cs" />
     <Compile Include="DAL\SurveySqlDAL.cs" />
+    <Compile Include="DAL\WeatherSqlDAL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ParkModel.cs" />
     <Compile Include="Models\SurveyModel.cs" />
+    <Compile Include="Models\Weather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +228,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Home\CelsiusDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,107 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Capstone.Web.Models;
+@model ParkModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    <table>
+        <tr>
+            <td>
+                <img src="~/Content/parks/@(Model.ParkCode + ".jpg")" />
+            </td>
+        </tr>
+        <tr>
+            <td>@Model.ParkName</td>
+        </tr>
+        <tr><td>@Model.ParkDescription</td></tr>
+        <tr>
+            <td>@Model.State</td>
+            <td>@Model.Acreage</td>
+            <td>@Model.YearFounded</td>
+            <td>@Model.ElevationInFeet feet hight</td>
+            <td>@Model.AnnualVisitorCount</td>
+            <td>@Model.Climate</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>@Model.InspirationalQuote</td>
+            <td>@Model.InspirationalQuoteSource</td>
+            <td>There are @Model.MilesOfTrail miles of trail!</td>
+            <td>There are a total of @Model.NumberOfAnimalSpecies different types of species in @Model.ParkName.</td>
+            <td>This park has @Model.NumberOfCampsites campsites.</td>
+            <td>The entry fee for the park is @Model.EntryFee. </td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+
+            @foreach (Weather i in Model.WeatherList)
+            {
+                if (i.FiveDayForecastValue == 1)
+                {
+                    <td>The Forecast @i.Forecast</td>
+                    if (i.Forecast == "snow")
+                    {
+                        <strong>Pack some snow shoes!</strong>
+                    }
+                    else if (i.Forecast == "rain")
+                    {
+                        <strong>Pack some rain gear and remember your waterproof boots!</strong>
+                    }
+                    else if (i.Forecast == "thunderstorm")
+                    {
+                        <strong>Find shelter and avoid hiking on exposed ridges!</strong>
+                    }
+                    else if (i.Forecast == "sun")
+                    {
+                        <strong>Remember to pack some sunblock!</strong>
+                    }
+                    <td>The high: @((5.0/9.0)*(i.TemperatureHigh -32))  degrees.</td>
+                    <td>The low: @((5.0/9.0) * (i.TemperatureLow - 32)) degrees.</td>
+                    if ((i.TemperatureLow < 20) && ((i.TemperatureHigh - i.TemperatureLow) > 20))
+                    {
+                        <strong>Beware of frostbite!</strong>
+                        <strong>Make sure to wear breathable layers!</strong>
+                    }
+                    else if (((i.TemperatureHigh - i.TemperatureLow) > 20) && (i.TemperatureHigh > 75))
+                    {
+                        <strong>Make sure to wear breathable layers!</strong>
+                        <strong> Make sure to bring extra water!</strong>
+                    }
+                    else if ((i.TemperatureHigh - i.TemperatureLow) > 20)
+                    {
+                        <strong>Beware of frostbite!</strong>
+                    }
+                    else if (i.TemperatureHigh > 75)
+                    {
+                        <strong> Make sure to bring extra water!</strong>
+                    }
+                    else if (i.TemperatureLow < 20)
+                    {
+                        <strong>Beware of frostbite!</strong>
+                    }
+                }
+                else
+                {
+                    <td>The high: @i.TemperatureHigh degrees.</td>
+                    <td>The low: @i.TemperatureLow</td>
+                    <td>Forecast: <img src="~/Content/weather/@(i.Forecast + ".png")" /></td>
+                }
+            }
+
+
+        </tr>
+    </table>
+
+
+
+
+
+</div>

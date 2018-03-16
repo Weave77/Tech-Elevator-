@@ -6,36 +6,27 @@
 }
 
 
-<h1>New Geek Post</h1>
+<h1 style="text-align:center">Favorite Park Survey!</h1>
 
-@*<div>
-        @Html.Label("Username", "Enter Username: ")
-        @Html.TextBoxFor(m => m.Username)
-    </div>
-
-    <div>
-        @Html.Label("Message", "Message: ")
-        @Html.TextAreaFor(m => m.Message)
-    </div>*@
 @using (Html.BeginForm("Survey", "Survey", FormMethod.Post))
 {
     <div class="formInputGroupGroup">
         @Html.Label("ParkCode", "Select your favorite park! ")
         @Html.DropDownListFor(m => m.ParkCode, SurveyModel.ParkCodes)
     </div>
-    <div>
+    <div class="formInputGroupGroup">
         @Html.Label("EmailAddress", "Email Address: ")
         @Html.TextBoxFor(m => m.EmailAddress)
     </div>
-    <div>
+    <div class="formInputGroupGroup">
         @Html.Label("States", "Select your State ")
         @Html.DropDownListFor(m => m.State, SurveyModel.States)
     </div>
-    <div>
+    <div class="formInputGroupGroup">
         @Html.Label("ActivityLevel", "Select your activity level ")
         @Html.DropDownListFor(m => m.ActivityLevel, SurveyModel.ActivityLevels)
     </div>
-    <div>
+    <div class="formInputGroupGroup">
         <button>Submit!</button>
     </div>
 }

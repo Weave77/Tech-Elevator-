@@ -177,3 +177,15 @@ section.result {
 img.logo{
     width:20%;
 }
+img.FavoriteImages{
+    width:50%;
+    display:inline-block;
+}
+header.TopParks{
+    color:white;
+    text-align:center;
+    font-size:x-large;
+}
+div.formInputGroupGroup{
+    background-color:bisque;
+}
